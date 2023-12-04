@@ -56,11 +56,10 @@ To get the Job Data Aggregator and Dashboard up and running on your local machin
    ```
 
 2. **Create a Virtual Environment**:
-To create a new virtual environment named `venv`, run the following command in the root of the project directory:
-```
-virtualenv venv
-
-```
+    To create a new virtual environment named `venv`, run the following command in the root of the project directory:
+    ```
+    virtualenv venv
+    ```
 
 
 3. **Activate the Virtual Environment**:
@@ -75,26 +74,25 @@ Activate the virtual environment by running the following command:
   ```
 
 4. **Install Requirements**:
-Install the required Python packages specified in `requirements.txt`:
-```
-pip install -r requirements.txt
-
-```
+    Install the required Python packages specified in `requirements.txt`:
+    ```
+    pip install -r requirements.txt
+    ```
 
 5. **Modify the Chromedriver Path**:
 Update the path to the Chromedriver in the scraping scripts to match the location of Chromedriver on your system.
 
 6. **Create the Database**:
-Set up the database by running the `db.py` script inside the `db` directory:
-```
-python db/db.py
-```
+    Set up the database by running the `db.py` script inside the `db` directory:
+    ```
+    python db/db.py
+    ```
 
 7. **Start the Application**:
-Launch the dashboard using Streamlit:
-```
-streamlit run dashboard.py
-```
+    Launch the dashboard using Streamlit:
+    ```
+    streamlit run dashboard.py
+    ```
 
 
 ## Usage
