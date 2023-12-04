@@ -133,5 +133,5 @@ class H1B_Scraper:
 
 # Example Usage
 scraper = H1B_Scraper()
-all_data = scraper.scrape([2020, 2023], ['Software Engineer', 'Data Scientist'])
-all_data.to_csv('h1b_data.csv', index=False)
+all_data = scraper.scrape([2018, 2023], ['Software Engineer', 'Data Scientist', 'Product Manager', 'Graphic Designer', 'Marketing Manager', 'Sales'])
+all_data.to_csv('h1b_newdata.csv', index=False)

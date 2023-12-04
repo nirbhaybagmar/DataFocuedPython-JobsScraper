@@ -3,9 +3,6 @@ import pandas as pd
 import sqlite3
 import os
 import re
-from current_jobs_dashboard import main_dashboard
-from h1b_dashboard import h1b_job_insights
-from analytics_dashboard import analytics_tab
 
 # Function to connect to your SQLite database
 def load_data(query, params=()):
@@ -24,12 +21,15 @@ def main():
     tab1, tab2, tab3 = st.tabs(["Main Dashboard", "H1B Job Insights", "Analytics"])
 
     with tab1:
+        from current_jobs_dashboard import main_dashboard
         main_dashboard()
 
     with tab2:
+        from h1b_dashboard import h1b_job_insights
         h1b_job_insights()
 
     with tab3:
+        from analytics_dashboard import analytics_tab
         analytics_tab()
 if __name__ == '__main__':
     main()

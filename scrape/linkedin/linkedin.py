@@ -103,7 +103,7 @@ def extract_criteria(soup, criteria_name):
         "class": "description__job-criteria-item"}, string=criteria_name)
     return criteria.find("span", {"class": "description__job-criteria-text--criteria"}).text.strip() if criteria else None
 
-job_roles = ['Software Engineer', 'Data Scientist', 'Product Manager', 'Graphic Designer', 'Marketing Manager', 'Sales
+job_roles = ['Software Engineer', 'Data Scientist', 'Product Manager', 'Graphic Designer', 'Marketing Manager', 'Sales']
 
 
 if __name__ == "__main__":
