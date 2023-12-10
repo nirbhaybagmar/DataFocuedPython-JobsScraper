@@ -79,7 +79,25 @@ Activate the virtual environment by running the following command:
     ```
 
 5. **Modify the Chromedriver Path**:
-Update the path to the Chromedriver in the scraping scripts to match the location of Chromedriver on your system.
+  Update the path to the Chromedriver in the scraping scripts to match the location of Chromedriver on your system.
+
+      Create a new file `.env` in the root directory and add the following line:
+      ```
+      CHROMEDRIVER_PATH = "path/to/chromedriver"
+      ```
+      Make sure to replace `"path/to/chromedriver"` with the actual path to the Chromedriver executable on your system.
+      Chromedriver can be downloaded from [here](https://sites.google.com/chromium.org/driver/).
+      Chromedriver version should match the version of Chrome installed on your system.
+
+      Issues with Chromedriver:
+      - If you are using Windows, you may need to add the Chromedriver path to the system PATH variable.
+      - If you are using macOS, you may need to grant permission to the Chromedriver executable using the following command:
+        ```
+        chmod +x /path/to/chromedriver
+        ```
+        ```
+        xattr -d com.apple.quarantine /path/to/chromedriver
+        ```
 
 6. Command to run all the process in one command i.e scrape the data, clean the data, create database, populate database, run the application
     ```
@@ -106,7 +124,7 @@ Update the path to the Chromedriver in the scraping scripts to match the locatio
 10. **Populate the Database**:
     Populate the database by running the `db.py` script inside the `db` directory:
     ```
-    python db/db.py
+    python db/populate_db.py
     ```
 
 11. **Start the Application**:
