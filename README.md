@@ -1,4 +1,9 @@
-# Job Data Aggregator and Dashboard
+# HireHub - Job Data Aggregator and Dashboard
+
+<div align="center">
+  <img src="https://raw.githubusercontent.com/nirbhaybagmar/DataFocuedPython-JobsScraper/main/logo/logo.png" alt="alt text" width="200">
+</div>
+
 
 ## Introduction
 
@@ -15,26 +20,29 @@ This project is designed to scrape job listings from LinkedIn, Glassdoor, and H1
 
 - **data_processing/**: Scripts and data files related to data processing.
   - `aggregated_data.csv`: A CSV file containing the combined job data from all sources.
-  - `data_aggregation.py`: Script for aggregating job data into a single CSV file.
+  - `process_data.py`: Script for aggregating job data into a single CSV file.
 
 - **db/**: Database scripts and files.
   - `db_query.py`: Contains functions to query the SQLite database.
   - `db.py`: Script to set up the SQLite database.
   - `jobs.db`: SQLite database file containing job listings.
   - `populate_data.py`: Populate database with job data from CSV file.
+  - `constants.py`: Contains constants used across the scraping scripts.
 
 - **scrape/**: Web scraping modules for each job data source.
   - `glassdoor/`: Contains files for scraping Glassdoor.
     - `scrape_glassdoor.py`: The script used to scrape job data from Glassdoor.
-    - `jobs.csv`: Scraped job listings from Glassdoor.
+    - `scrape_glassdoor.csv`: Scraped job listings from Glassdoor.
   - `h1b/`: Contains files for scraping H1B transfer data.
     - `h1b_data.csv`: Scraped H1B job listings.
     - `scrape_h1b.py`: General scraping script that can be adapted for various sources.
   - `linkedin/`: Contains files for scraping LinkedIn.
     - `data_processing.py`: Script for processing scraped LinkedIn job data.
     - `scrape_linkedin.py`: The script used to scrape job data from LinkedIn.
-    - `LinkedinFinalScrapedData.csv`: The final scraped data from LinkedIn.
-    - `linkedinjobsfinal.csv`: Processed LinkedIn job listings for the dashboard.
+    - `clean_linkedin.csv`: Cleaned LinkedIn job listings.
+    - `scrape_linkedin.csv`: Scraped job listings from LinkedIn.
+  - `scrape.py`: A script to run all the scraping scripts sequentially.
+  - `constants.py`: Contains constants used across the scraping scripts.
 
 - **venv/**: Virtual environment for project dependencies.
 
