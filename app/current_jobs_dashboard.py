@@ -53,4 +53,17 @@ def main_dashboard():
         params.extend([f'%{tech}%' for tech in tech_list])
 
     results = load_data(query, params)
+    rename_dict = {
+        'employer': 'Employer',
+        'job_title': 'Job Title',
+        'location': 'Location',
+        'tech': 'Technology',
+        'job_type': 'Job Type',
+        'min_salary': 'Min Salary',
+        'max_salary': 'Max Salary'
+    }
+
+    results.rename(columns=rename_dict, inplace=True)
+    replace_values = [None, 'None', 'Null', 'NaN', 'Not Applicable']
+    results.replace(replace_values, 'N/A', inplace=True)
     st.dataframe(results, width=1200, height=600)  # Increased size of the table

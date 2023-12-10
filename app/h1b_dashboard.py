@@ -45,6 +45,7 @@ def h1b_job_insights():
         params.append(year)
 
     results = load_data(query, params)
+
     st.dataframe(results, width=700, height=300)
 
 # h1b_job_insights()
