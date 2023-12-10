@@ -11,28 +11,29 @@ def main():
 
     # Scrape Glassdoor jobs
     try:
-        technologies = ["Python"]
+        technologies = ["Python", "Java", "JavaScript", "C++", "C#",
+                        "Ruby", "Swift", "Kotlin", "Go", "Rust", "Scala", "TypeScript"]
         locations = {
             "San-Jose-CA-US": "IC1147436",
-            # "San-Francisco-CA-US": "IC1147401",
-            # "Seattle-WA-US": "IC1150505",
-            # "Boston-MA-US": "IC1154532",
-            # "San-Diego-CA-US": "IC1147311",
-            # "Los-Angeles-CA-US": "IC1146821",
-            # "Austin-TX-US": "IC1139761",
-            # "Washington-DC-US": "IC1138213",
-            # "New-York-NY-US": "IC1132348",
-            # "Raleigh-NC-US": "IC1138960",
-            # "Denver-CO-US": "IC1148170",
-            # "Atlanta-GA-US": "IC1155583",
-            # "Chicago-IL-US": "IC1128808",
-            # "Dallas-TX-US": "IC1139977",
-            # "Houston-TX-US": "IC1140171",
-            # "Minneapolis-MN-US": "IC1142551",
-            # "Philadelphia-PA-US": "IC1152672",
-            # "Portland-OR-US": "IC1151614",
-            # "Charlotte-NC-US": "IC1138644",
-            # "Tampa-FL-US": "IC1154429"
+            "San-Francisco-CA-US": "IC1147401",
+            "Seattle-WA-US": "IC1150505",
+            "Boston-MA-US": "IC1154532",
+            "San-Diego-CA-US": "IC1147311",
+            "Los-Angeles-CA-US": "IC1146821",
+            "Austin-TX-US": "IC1139761",
+            "Washington-DC-US": "IC1138213",
+            "New-York-NY-US": "IC1132348",
+            "Raleigh-NC-US": "IC1138960",
+            "Denver-CO-US": "IC1148170",
+            "Atlanta-GA-US": "IC1155583",
+            "Chicago-IL-US": "IC1128808",
+            "Dallas-TX-US": "IC1139977",
+            "Houston-TX-US": "IC1140171",
+            "Minneapolis-MN-US": "IC1142551",
+            "Philadelphia-PA-US": "IC1152672",
+            "Portland-OR-US": "IC1151614",
+            "Charlotte-NC-US": "IC1138644",
+            "Tampa-FL-US": "IC1154429"
         }
 
         print("Scraping Glassdoor jobs...")
@@ -58,7 +59,7 @@ def main():
         print("Scraping LinkedIn jobs...")
         job_roles = ['Software Engineer', 'Data Scientist',
                      'Product Manager', 'Graphic Designer', 'Marketing Manager', 'Sales']
-        df = scrape_linkedin_jobs(job_roles, 1)
+        df = scrape_linkedin_jobs(job_roles, 30)
         df.to_csv(LINKEDIN_SCRAPED, index=False)
         print("LinkedIn jobs scraped successfully!")
     except Exception as e:
