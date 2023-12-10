@@ -21,21 +21,20 @@ This project is designed to scrape job listings from LinkedIn, Glassdoor, and H1
   - `db_query.py`: Contains functions to query the SQLite database.
   - `db.py`: Script to set up the SQLite database.
   - `jobs.db`: SQLite database file containing job listings.
+  - `populate_data.py`: Populate database with job data from CSV file.
 
 - **scrape/**: Web scraping modules for each job data source.
   - `glassdoor/`: Contains files for scraping Glassdoor.
-    - `glassdoor.py`: The script used to scrape job data from Glassdoor.
+    - `scrape_glassdoor.py`: The script used to scrape job data from Glassdoor.
     - `jobs.csv`: Scraped job listings from Glassdoor.
   - `h1b/`: Contains files for scraping H1B transfer data.
     - `h1b_data.csv`: Scraped H1B job listings.
-    - `scrape.py`: General scraping script that can be adapted for various sources.
+    - `scrape_h1b.py`: General scraping script that can be adapted for various sources.
   - `linkedin/`: Contains files for scraping LinkedIn.
     - `data_processing.py`: Script for processing scraped LinkedIn job data.
-    - `linkedin.py`: The script used to scrape job data from LinkedIn.
+    - `scrape_linkedin.py`: The script used to scrape job data from LinkedIn.
     - `LinkedinFinalScrapedData.csv`: The final scraped data from LinkedIn.
     - `linkedinjobsfinal.csv`: Processed LinkedIn job listings for the dashboard.
-
-- **templates/**: HTML templates for the Flask app.
 
 - **venv/**: Virtual environment for project dependencies.
 
@@ -82,13 +81,35 @@ Activate the virtual environment by running the following command:
 5. **Modify the Chromedriver Path**:
 Update the path to the Chromedriver in the scraping scripts to match the location of Chromedriver on your system.
 
-6. **Create the Database**:
+6. Command to run all the process in one command i.e scrape the data, clean the data, create database, populate database, run the application
+    ```
+    python run_commands.py
+    ```
+
+## To individually run the functionality follow the below steps
+7. **To Scrape data**: This will sequntially run scraping for all the sources
+    ```
+    python scrape/scrape.py
+    ```
+
+8. **To process and clean data**: This will clean the data and aggregate data from multiple sources
+    ```
+    python data_processing/process_data.py
+    ```
+
+9. **Create the Database**:
     Set up the database by running the `db.py` script inside the `db` directory:
     ```
     python db/db.py
     ```
 
-7. **Start the Application**:
+10. **Populate the Database**:
+    Populate the database by running the `db.py` script inside the `db` directory:
+    ```
+    python db/db.py
+    ```
+
+11. **Start the Application**:
     Launch the dashboard using Streamlit:
     ```
     streamlit run dashboard.py
@@ -97,12 +118,40 @@ Update the path to the Chromedriver in the scraping scripts to match the locatio
 
 ## Usage
 
-[Explanation on how to use the application, access different dashboards, and interpret the data.]
+[Instructions on how to use the project or application.]
 
-## Contributing
+Dashboard contains 3 tabs:
+1. **Current Jobs**: This tab contains the current job listings from various sources.
+2. **H1B Data**: This tab contains the H1B visa-related job data.
+3. **Analytics**: This tab provides insights and analytics on the aggregated job data.
 
-[Guidelines for how to contribute to the project, if applicable.]
+Current Jobs tab contains the following filters:
+- **Location**: Filter job listings by location.
+- **Company**: Filter job listings by company.
+- **Job Title**: Filter job listings by job title.
+- **Experience Level**: Filter job listings by experience level.
+- **Salary**: Filter job listings by salary range.
+- **Technology**: Filter job listings by technology.
 
-## License
+H1B Data tab contains the following filters:
+- **Location**: Filter job listings by location.
+- **Company**: Filter job listings by company.
+- **Job Title**: Filter job listings by job title.
+- **Base Salary**: Filter job listings by base salary range.
 
-[Information about the project license.]
+Analytics tab contains the following insights:
+- **Job Count by Location**: A bar chart showing the number of job listings by location.
+- **Job Count by Company**: A bar chart showing the number of job listings by company.
+- **Job Count by Job Title**: A bar chart showing the number of job listings by job title.
+- **Job Count by Experience Level**: A bar chart showing the number of job listings by experience level.
+- **Job Count by Salary**: A bar chart showing the number of job listings by salary range.
+- **Job Count by Technology**: A bar chart showing the number of job listings by technology.
+
+
+## Authors
+1. `Nirbhay Bagmar` (nbagmar)
+2. `Dhruv Rakesh` (drakesh)
+3. `Kovidh Pathak` (kpathak)
+4. `Leher`
+5. `Aishwarya`
+

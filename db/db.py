@@ -34,10 +34,10 @@ def setup_database(db_name):
             employer TEXT,
             job_title TEXT,
             location TEXT,
-            date_posted TEXT,
+            tech TEXT,
             job_type TEXT,
-            salary TEXT,
-            tech TEXT
+            min_salary TEXT,
+            max_salary TEXT
         )
     ''')
     print("Database initialized and tables created.")
@@ -47,50 +47,14 @@ def setup_database(db_name):
     conn.close()
 
 
-def populate_database(db_name, table, data):
-    """
-    Populates the SQLite database with the specified data.
-
-    Args:
-        db_name (str): Name of the SQLite database file.
-        data (list): List of tuples containing data to be inserted into the database.
-    """
-
-    # Connect to SQLite database
-    conn = sqlite3.connect(db_name)
-
-    # Create a cursor object
-    cursor = conn.cursor()
-
-    # Insert data into 'h1b_jobs' table
-    data.to_sql(table, conn, if_exists='replace', index=False)
-
-    # Commit changes and close the connection
-    conn.commit()
-    conn.close()
-
-
 
 if __name__ == '__main__':
-    db_name = 'jobs.db'
+    db_name = 'db/jobs.db'
     try:
+        print(f"Setting up database: {db_name}")
         setup_database(db_name)
+        print("Database setup complete.")
     except Exception as e:
         print(f"Error setting up database: {e}")
 
-    # Read data from CSV file for H1B data
-    print("Reading data from CSV file for H1B data...")
-    data = pd.read_csv('scrape/h1b/h1b_data.csv')
-
-    # read current jobs data
-    print("Reading data from CSV file for current jobs data...")
-    data2 = pd.read_csv('data_processing/aggregated_data.csv')
-
-    # Populate 'h1b_jobs' table
-    print("Populating 'h1b_jobs' table...")
-    populate_database(db_name, 'h1b_jobs', data)
-
-    # Populate 'current_jobs' table
-    print("Populating 'current_jobs' table...")
-    populate_database(db_name, 'current_jobs', data2)
 
