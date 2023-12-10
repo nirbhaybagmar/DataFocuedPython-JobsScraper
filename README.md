@@ -178,6 +178,6 @@ Analytics tab contains the following insights:
 1. `Nirbhay Bagmar` (nbagmar)
 2. `Dhruv Rakesh` (drakesh)
 3. `Kovidh Pathak` (kpathak)
-4. `Leher`
-5. `Aishwarya`
+4. `Leher Jaiswal` (ljaiswal)
+5. `Aishwarya Ponnamparambil` (aponnamp)
 
