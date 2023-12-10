@@ -47,7 +47,7 @@ def main():
     try:
         print("Scraping H1B data...")
         scraper = H1B_Scraper()
-        h1b_data = scraper.scrape([2018, 2023], ['Software Engineer', 'Data Scientist',
+        h1b_data = scraper.scrape([2018, 2019, 2020, 2021, 2022, 2023], ['Software Engineer', 'Data Scientist',
                                   'Product Manager', 'Graphic Designer', 'Marketing Manager', 'Sales'])
         h1b_data.to_csv(H1B_SCRAPED, index=False)
         print("H1B data scraped successfully!")

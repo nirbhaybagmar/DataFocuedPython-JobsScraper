@@ -4,13 +4,23 @@ from dashboard import load_data
 def h1b_job_insights():
     st.subheader("H1B Job Insights")
 
-    # Filters for H1B Job Insights
-    employer = st.text_input("Search by Employer")
-    job_title = st.text_input("Search by Job Title")
-    min_salary = st.number_input("Minimum Salary", value=0, step=1000)
-    max_salary = st.number_input("Maximum Salary", value=0, step=1000)
-    location = st.text_input("Search by Location")
-    year = st.selectbox("Select Year", options=["", "2020", "2021", "2022"], index=0)
+    # Using columns to organize filters
+    col1, col2 = st.columns(2)  # First row of columns
+    col3, col4 = st.columns(2)  # Second row of columns
+    col5, col6 = st.columns(2)  # Third row of columns
+
+    with col1:
+        employer = st.text_input("Search by Employer")
+    with col2:
+        job_title = st.text_input("Search by Job Title")
+    with col3:
+        min_salary = st.number_input("Minimum Salary", value=0, step=10000)
+    with col4:
+        max_salary = st.number_input("Maximum Salary", value=0, step=10000)
+    with col5:
+        location = st.text_input("Search by Location")
+    with col6:
+        year = st.selectbox("Select Year", options=["", "2020", "2021", "2022"], index=0)
 
     # Query building logic
     query = "SELECT * FROM h1b_jobs WHERE 1=1"
@@ -36,3 +46,5 @@ def h1b_job_insights():
 
     results = load_data(query, params)
     st.dataframe(results, width=700, height=300)
+
+# h1b_job_insights()

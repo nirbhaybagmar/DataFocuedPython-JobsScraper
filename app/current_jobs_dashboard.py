@@ -1,44 +1,56 @@
 import streamlit as st
 import pandas as pd
-from dashboard import load_data, extract_salary_range
-
+from dashboard import load_data
 
 def main_dashboard():
-    st.subheader("Main Dashboard - Current Jobs")
+    st.subheader("Current Jobs Dashboard")
 
-    # Filters for Main Dashboard
-    company = st.text_input("Filter by Company")
-    job_title = st.text_input("Filter by Job Title")
-    job_type = st.text_input("Filter by Job Type")
-    location = st.text_input("Filter by Location")
-    salary_range = st.text_input("Filter by Salary Range (e.g., '50000-70000')")
-    tech_filter = st.text_input("Filter by Technologies (comma-separated, e.g., 'Python, Java')")
+    col1, col2 = st.columns(2)
+    col3, col4 = st.columns(2)
+    col5, col6 = st.columns(2)
+    col7 = st.columns(1)[0]
+
+    with col1:
+        company = st.text_input("Filter by Company", key='company_filter')
+    with col2:
+        job_title = st.text_input("Filter by Job Title", key='job_title_filter')
+    with col3:
+        min_salary = st.number_input("Minimum Salary", min_value=0, step=1000, key='min_salary_filter')
+    with col4:
+        max_salary = st.number_input("Maximum Salary", min_value=0, step=1000, key='max_salary_filter')
+    with col5:
+        location = st.text_input("Filter by Location", key='location_filter')
+    with col6:
+        job_type = st.text_input("Filter by Job Type", key='job_type_filter')
+    with col7:
+        tech_filter = st.text_input("Filter by Technologies (e.g., 'Python, Java')", key='tech_filter')
 
     # Query building logic for current jobs
     query = "SELECT * FROM current_jobs WHERE 1=1"
     params = []
     if company:
-        query += " AND Company LIKE ?"
+        query += " AND employer LIKE ?"
         params.append(f'%{company}%')
     if job_title:
-        query += " AND `Job-Title` LIKE ?"
+        query += " AND `job_title` LIKE ?"
         params.append(f'%{job_title}%')
-    if job_type:
-        query += " AND `Job-Type` LIKE ?"
-        params.append(f'%{job_type}%')
     if location:
-        query += " AND Location LIKE ?"
+        query += " AND location LIKE ?"
         params.append(f'%{location}%')
-    if salary_range:
-        salary_bounds = extract_salary_range(salary_range)
-        if len(salary_bounds) == 2:
-            query += " AND (CAST(SUBSTR(Salary, 1, INSTR(Salary, '-') - 1) AS INTEGER) BETWEEN ? AND ?)"
-            params.extend(salary_bounds)
+    if min_salary > 0:
+        query += " AND min_salary >= ?"
+        params.append(min_salary)
+    if max_salary > 0:
+        query += " AND max_salary <= ?"
+        params.append(max_salary)
+    if job_type:
+        query += " AND `job_type` LIKE ?"
+        params.append(f'%{job_type}%')
     if tech_filter:
         tech_list = [tech.strip() for tech in tech_filter.split(',')]
-        tech_query = " OR ".join(["Tech LIKE ?" for _ in tech_list])
+        tech_query = " OR ".join(["tech LIKE ?" for _ in tech_list])
         query += f" AND ({tech_query})"
         params.extend([f'%{tech}%' for tech in tech_list])
 
     results = load_data(query, params)
-    st.dataframe(results, width=700, height=300)
+    st.dataframe(results, width=1200, height=600)  # Increased size of the table

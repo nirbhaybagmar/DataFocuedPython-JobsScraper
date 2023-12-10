@@ -11,13 +11,19 @@ def load_data(query, params=()):
     conn = sqlite3.connect(db_path)
     return pd.read_sql_query(query, conn, params=params)
 
-def extract_salary_range(salary_str):
-    """ Extracts numeric salary range from the salary string. """
-    numbers = re.findall(r'\d+', salary_str.replace(',', ''))
-    return list(map(int, numbers))
-
 def main():
-    st.title('Job Insights Dashboard')
+    # Logo and Title
+    col1, col2 = st.columns([8, 16])
+
+    # Display the logo in the first column
+    with col1:
+        st.image("logo/logo.png", width=150)  # Adjust the path and width as needed
+
+    # Display the title in the second column
+    with col2:
+        st.title('Job Insights Dashboard')
+
+    # Tabs for different dashboards
     tab1, tab2, tab3 = st.tabs(["Main Dashboard", "H1B Job Insights", "Analytics"])
 
     with tab1:
@@ -31,5 +37,6 @@ def main():
     with tab3:
         from analytics_dashboard import analytics_tab
         analytics_tab()
+
 if __name__ == '__main__':
     main()

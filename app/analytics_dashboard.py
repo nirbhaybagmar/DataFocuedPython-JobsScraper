@@ -28,7 +28,7 @@ def analytics_tab():
         plt.xlabel("Number of Jobs")
         plt.ylabel("Employers")
         st.pyplot(plt)
-    
+
         # 3. Job Distribution by Year
         st.subheader("Job Distribution by Year (H1B Jobs)")
         jobs_by_year = h1b_data['Year'].value_counts().sort_index()
@@ -46,20 +46,11 @@ def analytics_tab():
         plt.title("Top 5 Job Titles")
         st.pyplot(plt)
 
-        # # 5. Average Salary by Location
-        # st.subheader("Average Salary by Location (H1B Jobs)")
-        # avg_salary_by_location = h1b_data.groupby('LOCATION')['BASE SALARY'].mean().sort_values(ascending=False).head(10)
-        # plt.figure(figsize=(10, 6))
-        # sns.barplot(x=avg_salary_by_location.values, y=avg_salary_by_location.index)
-        # plt.xlabel("Average Salary")
-        # plt.ylabel("Location")
-        # st.pyplot(plt)
-
     # Current Jobs Data Analysis
     if not current_jobs_data.empty:
         # 6. Number of Jobs by Job Type
         st.subheader("Number of Jobs by Job Type (Current Jobs)")
-        job_type_count = current_jobs_data['Job-Type'].value_counts()
+        job_type_count = current_jobs_data['job_type'].value_counts()
         plt.figure(figsize=(10, 6))
         sns.barplot(x=job_type_count.values, y=job_type_count.index)
         plt.xlabel("Number of Jobs")
@@ -68,7 +59,7 @@ def analytics_tab():
 
         # 7. Technology Frequency
         # Assuming 'Tech' field contains comma-separated values
-        tech_series = current_jobs_data['Tech'].dropna().str.split(',').explode()
+        tech_series = current_jobs_data['tech'].dropna().str.split(',').explode()
         tech_count = tech_series.value_counts().head(10)
         st.subheader("Technology Frequency (Current Jobs)")
         plt.figure(figsize=(10, 6))
@@ -77,23 +68,9 @@ def analytics_tab():
         plt.ylabel("Technology")
         st.pyplot(plt)
 
-        # 8. Salary Range Distribution
-        # # Assuming 'Salary' contains ranges like '50000-70000'
-        # # This is a simplistic approach and might need adjustment based on actual data format
-        # salary_ranges = current_jobs_data['Salary'].dropna().str.split('-', expand=True).astype(float)
-        # salary_ranges.columns = ['Min Salary', 'Max Salary']
-        # st.subheader("Salary Range Distribution (Current Jobs)")
-        # plt.figure(figsize=(10, 6))
-        # sns.histplot(salary_ranges['Min Salary'], kde=True, color='blue', label='Min Salary')
-        # sns.histplot(salary_ranges['Max Salary'], kde=True, color='orange', label='Max Salary')
-        # plt.xlabel("Salary")
-        # plt.ylabel("Frequency")
-        # plt.legend()
-        # st.pyplot(plt)
-
         # 9. Company-wise Job Distribution
         st.subheader("Company-wise Job Distribution (Current Jobs)")
-        company_job_dist = current_jobs_data['Company'].value_counts().head(10)
+        company_job_dist = current_jobs_data['employer'].value_counts().head(10)
         plt.figure(figsize=(10, 6))
         sns.barplot(x=company_job_dist.values, y=company_job_dist.index)
         plt.xlabel("Number of Jobs")
@@ -102,7 +79,7 @@ def analytics_tab():
 
         # 10. Location-based Job Distribution
         st.subheader("Location-based Job Distribution (Current Jobs)")
-        location_job_dist = current_jobs_data['Location'].value_counts().head(10)
+        location_job_dist = current_jobs_data['location'].value_counts().head(10)
         plt.figure(figsize=(10, 6))
         sns.barplot(x=location_job_dist.values, y=location_job_dist.index)
         plt.xlabel("Number of Jobs")

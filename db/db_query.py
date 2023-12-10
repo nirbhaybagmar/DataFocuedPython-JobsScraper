@@ -17,7 +17,7 @@ def query_current_jobs(job_title):
     """Query the database for jobs with the specified job title."""
     return query_db("SELECT * FROM current_jobs WHERE `Job-Title` LIKE ? LIMIT 500", ('%' + job_title + '%',))
 
-conn = sqlite3.connect('jobs.db')
+conn = sqlite3.connect('db/jobs.db')
 cursor = conn.cursor()
 
 # cursor.execute("SELECT COUNT(*) from current_jobs;")
