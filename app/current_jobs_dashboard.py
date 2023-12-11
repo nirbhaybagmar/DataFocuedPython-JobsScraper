@@ -9,6 +9,7 @@ def main_dashboard():
     col3, col4 = st.columns(2)
     col5, col6 = st.columns(2)
     col7 = st.columns(1)[0]
+    col8 = st.columns(1)[0]
 
     with col1:
         company = st.text_input("Filter by Company", key='company_filter')
@@ -24,6 +25,8 @@ def main_dashboard():
         job_type = st.text_input("Filter by Job Type", key='job_type_filter')
     with col7:
         tech_filter = st.text_input("Filter by Technologies (e.g., 'Python, Java')", key='tech_filter')
+    with col8:
+        h1b_sponsorship = st.checkbox("Filter by H1B Sponsorship", key='h1b_sponsorship_filter')
 
     # Query building logic for current jobs
     query = "SELECT * FROM current_jobs WHERE 1=1"
@@ -53,6 +56,27 @@ def main_dashboard():
         params.extend([f'%{tech}%' for tech in tech_list])
 
     results = load_data(query, params)
+
+    def word_based_match(employer_name, company_list):
+        """
+        Check if any word in employer_name is a substring of any company in company_list.
+        """
+        if not employer_name:
+            return False
+        employer_words = employer_name.lower().split()
+        for company in company_list:
+            company_lower = company.lower()
+            # Check if any word in employer_name is a substring of company
+            if any(word in company_lower for word in employer_words):
+                return True
+        return False
+
+    # If H1B sponsorship filter is checked, filter the results
+    if h1b_sponsorship:
+        h1b_companies = load_data("SELECT DISTINCT EMPLOYER FROM h1b_jobs", [])
+        h1b_companies_list = [employer for employer in h1b_companies['EMPLOYER'].tolist() if employer]
+        results = results[results['employer'].apply(lambda x: word_based_match(x, h1b_companies_list))]
+
     rename_dict = {
         'employer': 'Employer',
         'job_title': 'Job Title',
@@ -66,4 +90,4 @@ def main_dashboard():
     results.rename(columns=rename_dict, inplace=True)
     replace_values = [None, 'None', 'Null', 'NaN', 'Not Applicable']
     results.replace(replace_values, 'N/A', inplace=True)
-    st.dataframe(results, width=1200, height=600)  # Increased size of the table
+    st.dataframe(results, width=1200, height=600)

@@ -5,6 +5,11 @@ from constants import LINKEDIN_SCRAPED, GLASSDOOR_SCRAPED, H1B_SCRAPED, LINKEDIN
 
 
 def clean_linkedin_data(input_path, output_path):
+    """
+    Cleans the LinkedIn job data and saves the cleaned data to a new CSV file.
+    @param input_path: Path to the input CSV file.
+    @param output_path: Path to the output CSV file.
+    """
     data = pd.read_csv(input_path)
     data = data.drop(['employment type'], axis=1)
     data = data[data['company'].notna()]
@@ -23,6 +28,12 @@ def clean_linkedin_data(input_path, output_path):
 
 
 def combine_tables(csv_file1, csv_file2, output_path):
+    """
+    Combines two CSV files into a single DataFrame and saves the result to a new CSV file.
+    @param csv_file1: Path to the first CSV file.
+    @param csv_file2: Path to the second CSV file.
+    @param output_path: Path to the output CSV file.
+    """
     # Read CSV files into DataFrames
     df1 = pd.read_csv(csv_file1)
     df2 = pd.read_csv(csv_file2)
@@ -42,6 +53,12 @@ def combine_tables(csv_file1, csv_file2, output_path):
 
 
 def clean_salary_data(input_path, output_path):
+    """
+    Cleans the salary data and saves the cleaned data to a new CSV file.
+    @param input_path: Path to the input CSV file.
+    @param output_path: Path to the output CSV file.
+    @return: Cleaned DataFrame.
+    """
     data = pd.read_csv(input_path)
 
     data['salary'] = data['salary'].str.replace(
@@ -88,6 +105,11 @@ def clean_salary_data(input_path, output_path):
     return data
 
 
+# Clean LinkedIn job data
 clean_linkedin_data(LINKEDIN_SCRAPED, LINKEDIN_CLEANED_DATA)
+
+# Combine LinkedIn and Glassdoor job data
 combine_tables(GLASSDOOR_SCRAPED, LINKEDIN_CLEANED_DATA, AGGREGATED_DATA)
+
+# Clean salary data
 clean_salary_data(AGGREGATED_DATA, PROCESSED_AGGREGATED_DATA)

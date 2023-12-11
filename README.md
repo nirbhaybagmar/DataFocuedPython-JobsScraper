@@ -111,6 +111,7 @@ Activate the virtual environment by running the following command:
     ```
     python run_commands.py
     ```
+    If this command fails, please follow the below steps to run the functionality individually.
 
 ## To individually run the functionality follow the below steps
 7. **To Scrape data**: This will sequntially run scraping for all the sources

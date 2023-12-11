@@ -20,9 +20,9 @@ def query_current_jobs(job_title):
 conn = sqlite3.connect('db/jobs.db')
 cursor = conn.cursor()
 
-# cursor.execute("SELECT COUNT(*) from current_jobs;")
+# cursor.execute("SELECT DISTINCT EMPLOYER FROM h1b_jobs")
 # rv = cursor.fetchall()
-# print(rv)
+# print(rv["EMPLOYER"].tolist())
 
 # print(query_h1b_jobs('Software'))
 # print(query_current_jobs('Software'))

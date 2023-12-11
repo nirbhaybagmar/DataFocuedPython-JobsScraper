@@ -11,6 +11,13 @@ def analytics_tab():
     h1b_data = load_data("SELECT * FROM h1b_jobs")
     current_jobs_data = load_data("SELECT * FROM current_jobs")
 
+    current_jobs_data['min_salary'] = pd.to_numeric(current_jobs_data['min_salary'], errors='coerce')
+    current_jobs_data['max_salary'] = pd.to_numeric(current_jobs_data['max_salary'], errors='coerce')
+
+    # You can choose to either drop NaN values or fill them with a default value (like 0)
+    # To drop NaN values:
+    current_jobs_data = current_jobs_data.dropna(subset=['min_salary', 'max_salary'])
+
     # H1B Data Analysis
     if not h1b_data.empty:
         st.subheader("H1B Jobs Salary Distribution")
@@ -85,3 +92,44 @@ def analytics_tab():
         plt.xlabel("Number of Jobs")
         plt.ylabel("Location")
         st.pyplot(plt)
+
+        if not h1b_data.empty and not current_jobs_data.empty:
+            st.subheader("Average Base Salary Comparison")
+            avg_salary_h1b = h1b_data['BASE SALARY'].mean()
+            avg_salary_current = current_jobs_data[['min_salary', 'max_salary']].astype(float).mean(axis=1).mean()
+
+            plt.figure(figsize=(10, 6))
+            sns.barplot(x=['H1B Jobs', 'Current Jobs'], y=[avg_salary_h1b, avg_salary_current])
+            plt.ylabel('Average Salary')
+            st.pyplot(plt)
+
+            # Salary Distribution for Current Jobs
+            st.subheader("Salary Distribution (Current Jobs)")
+            current_jobs_salaries = current_jobs_data[['min_salary', 'max_salary']].astype(float).mean(axis=1)
+            plt.figure(figsize=(10, 6))
+            sns.histplot(current_jobs_salaries, kde=True)
+            plt.xlabel("Average Salary")
+            plt.ylabel("Frequency")
+            st.pyplot(plt)
+
+            # Salary by Location (For either dataset if location data is consistent)
+            st.subheader("Salary by Location")
+            # Example for H1B data; replace with current_jobs_data if needed
+            location_salary = h1b_data.groupby('LOCATION')['BASE SALARY'].mean().sort_values(ascending=False).head(10)
+            plt.figure(figsize=(10, 6))
+            sns.barplot(x=location_salary.values, y=location_salary.index)
+            plt.xlabel("Average Salary")
+            plt.ylabel("Location")
+            st.pyplot(plt)
+
+            # Tech-wise Salary Distribution (If applicable for current_jobs)
+            if 'tech' in current_jobs_data.columns:
+                st.subheader("Tech-wise Salary Distribution")
+                tech_salary = current_jobs_data.dropna(subset=['tech'])
+                tech_salary['average_salary'] = tech_salary[['min_salary', 'max_salary']].astype(float).mean(axis=1)
+                tech_salary = tech_salary.explode('tech').groupby('tech')['average_salary'].mean().sort_values(ascending=False).head(10)
+                plt.figure(figsize=(10, 6))
+                sns.barplot(x=tech_salary.values, y=tech_salary.index)
+                plt.xlabel("Average Salary")
+                plt.ylabel("Technology")
+                st.pyplot(plt)

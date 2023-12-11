@@ -48,4 +48,3 @@ def h1b_job_insights():
 
     st.dataframe(results, width=700, height=300)
 
-# h1b_job_insights()
