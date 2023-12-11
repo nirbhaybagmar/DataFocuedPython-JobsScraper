@@ -120,7 +120,7 @@ Activate the virtual environment by running the following command:
 9. **Start the Application**:
     Launch the dashboard using Streamlit:
     ```
-    streamlit run dashboard.py
+    streamlit run app/dashboard.py
     ```
 
 
