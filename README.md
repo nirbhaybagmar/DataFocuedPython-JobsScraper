@@ -161,6 +161,7 @@ Analytics tab contains the following insights:
 - **Job Count by Salary**: A bar chart showing the number of job listings by salary range.
 - **Job Count by Technology**: A bar chart showing the number of job listings by technology.
 
+Video Link : https://youtu.be/7axgdkF9DE8
 
 ## Authors
 1. `Nirbhay Bagmar` (nbagmar)
