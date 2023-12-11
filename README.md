@@ -99,25 +99,30 @@ Activate the virtual environment by running the following command:
         ```
         xattr -d com.apple.quarantine /path/to/chromedriver
         ```
+6. **Run the Application**:
+    Launch the dashboard using already scraped data:
+    ```
+    streamlit run app/dashboard.py
+    ```
 
-6. Command to run all the process in one command i.e scrape the data, clean the data, run the application
+7. Command to run all the process in one command i.e scrape the data, clean the data, run the application. <b> This command only works for Mac and Linux </b>.
     ```
     python run_commands.py
     ```
     If this command fails, please follow the below steps to run the functionality individually.
 
 ## To individually run the functionality follow the below steps
-7. **To Scrape data**: This will sequntially run scraping for all the sources
+8. **To Scrape data**: This will sequntially run scraping for all the sources
     ```
     python scrape/scrape.py
     ```
 
-8. **To process and clean data**: This will clean the data and aggregate data from multiple sources
+9. **To process and clean data**: This will clean the data and aggregate data from multiple sources
     ```
     python data_processing/process_data.py
     ```
 
-9. **Start the Application**:
+10. **Start the Application**:
     Launch the dashboard using Streamlit:
     ```
     streamlit run app/dashboard.py
@@ -140,6 +145,7 @@ Current Jobs tab contains the following filters:
 - **Experience Level**: Filter job listings by experience level.
 - **Salary**: Filter job listings by salary range.
 - **Technology**: Filter job listings by technology.
+- ** H1B Sponsorship**: Filter job listings by H1B sponsorship.
 
 H1B Data tab contains the following filters:
 - **Location**: Filter job listings by location.
