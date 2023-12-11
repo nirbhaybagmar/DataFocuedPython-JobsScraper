@@ -11,7 +11,8 @@ def clean_linkedin_data(input_path, output_path):
     @param output_path: Path to the output CSV file.
     """
     data = pd.read_csv(input_path)
-    data = data.drop(['employment type'], axis=1)
+    if 'employment type' in data.columns:
+        data = data.drop(['employment type'], axis=1)
     data = data[data['company'].notna()]
 
     data['level'] = data['level'].str.replace(
@@ -48,6 +49,8 @@ def combine_tables(csv_file1, csv_file2, output_path):
     # Append rows from the second table to the first table
     result = pd.concat([df1, df2], ignore_index=True, sort=False)
 
+    result['name-of-company'] = result['name-of-company'].str.replace(r'\d+\.\d+', '', regex=True)
+    print(result)
     result.to_csv(output_path)
     return result
 

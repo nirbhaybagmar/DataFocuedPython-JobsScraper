@@ -122,7 +122,7 @@ class H1B_Scraper:
         for year in years:
             for job in jobs:
                 url = f"https://h1bdata.info/index.php?em=&job={urllib.parse.quote_plus(job)}&city=&year={year}"
-                self.logger.info(f"Scraping URL: {url}")
+                print(f"Scraping URL: {url} for year {year} and job {job}")
                 tables = self.parser.parse(url)
                 for table in tables:
                     self.str2int(table, 'BASE SALARY')

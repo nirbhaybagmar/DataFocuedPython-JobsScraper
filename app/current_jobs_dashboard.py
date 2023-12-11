@@ -6,7 +6,10 @@ def main_dashboard():
     st.subheader("Current Jobs Dashboard")
 
     # Load data from CSV file
+
     df = pd.read_csv("data_processing/processed_aggregated_data.csv")
+    if 'Unnamed: 0.2' in df.columns:
+        df = df.drop(columns=['Unnamed: 0.2'])
 
     # Convert 'min_salary' and 'max_salary' to numeric types, handling non-numeric values
     df['min_salary'] = pd.to_numeric(df['min_salary'], errors='coerce')
@@ -55,8 +58,16 @@ def main_dashboard():
     # H1B Sponsorship filtering
     if h1b_sponsorship:
         h1b_companies = pd.read_csv("scrape/h1b/scrape_h1b.csv")
-        h1b_companies_list = h1b_companies['EMPLOYER'].dropna().str.lower().tolist()
-        df = df[df['employer'].str.lower().apply(lambda x: any(word in h1b_companies_list for word in str(x).split()))]
+        h1b_companies_list = h1b_companies['EMPLOYER'].dropna().str.lower().unique()
+
+        # Function to check if any H1B company name contains the employer name as a substring
+        def is_h1b_sponsor(employer):
+            employer_lower = employer.lower()
+            return any(employer_lower in h1b_company for h1b_company in h1b_companies_list)
+
+        # Filter the DataFrame
+        df['employer'] = df['employer'].astype(str)  # Ensure 'employer' is string
+        df = df[df['employer'].apply(is_h1b_sponsor)]
 
     # Renaming columns and replacing values
     rename_dict = {
@@ -71,5 +82,11 @@ def main_dashboard():
     df.rename(columns=rename_dict, inplace=True)
     replace_values = [None, 'None', 'Null', 'NaN', 'Not Applicable']
     df.replace(replace_values, 'N/A', inplace=True)
+
+    # ignore any row which has N/A or null in employer
+    # df = df[df['Employer'] not in ['N/A', None]]
+
+    # reset th index start from 1
+    df.reset_index(drop=True, inplace=True)
 
     st.dataframe(df, width=1200, height=600)

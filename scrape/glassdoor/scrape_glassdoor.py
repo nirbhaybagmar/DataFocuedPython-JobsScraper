@@ -27,6 +27,8 @@ def scrape_glassdoor_jobs(technologies, locations, chromedriver_path, output_csv
             # Generate the target URL
             target_url = generate_url(tech, location, location_id)
 
+            print(f"Scraping {tech} jobs in {location} with URL: {target_url}...")
+
             # Scrape the webpage
             driver.get(target_url)
             driver.maximize_window()  # Maximizing the browser window is optional

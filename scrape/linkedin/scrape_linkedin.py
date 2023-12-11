@@ -42,6 +42,7 @@ def get_job_ids(base_url, role, page):
     headers = get_headers()
     encoded_role = urllib.parse.quote(role)
     try:
+        print(f"Fetching job IDs for {role} on page {page} with URL: {base_url}keywords={encoded_role}&start={page}")
         response = requests.get(
             f"{base_url}keywords={encoded_role}&start={page}", headers=headers)
         soup = BeautifulSoup(response.text, 'html.parser')

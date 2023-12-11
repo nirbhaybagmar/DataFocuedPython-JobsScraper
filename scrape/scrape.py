@@ -70,6 +70,5 @@ if __name__ == "__main__":
     print("running scrape jobs")
 
     main()
-    # print("Scraping jobs...")
 
     print("Scraping complete!")

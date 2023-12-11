@@ -39,6 +39,7 @@ def h1b_job_insights():
     if year:
         df = df[df['Year'] == year]
 
+    df.reset_index(drop=True, inplace=True)
     st.dataframe(df, width=700, height=300)
 
 # The main function to call our dashboard
