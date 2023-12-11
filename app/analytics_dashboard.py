@@ -8,8 +8,8 @@ def analytics_tab():
     st.subheader("Data Analytics")
 
     # Fetch data from both tables
-    h1b_data = load_data("SELECT * FROM h1b_jobs")
-    current_jobs_data = load_data("SELECT * FROM current_jobs")
+    h1b_data = pd.read_csv("scrape/h1b/scrape_h1b.csv")
+    current_jobs_data = pd.read_csv("data_processing/processed_aggregated_data.csv")
 
     current_jobs_data['min_salary'] = pd.to_numeric(current_jobs_data['min_salary'], errors='coerce')
     current_jobs_data['max_salary'] = pd.to_numeric(current_jobs_data['max_salary'], errors='coerce')

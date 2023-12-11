@@ -22,13 +22,6 @@ This project is designed to scrape job listings from LinkedIn, Glassdoor, and H1
   - `aggregated_data.csv`: A CSV file containing the combined job data from all sources.
   - `process_data.py`: Script for aggregating job data into a single CSV file.
 
-- **db/**: Database scripts and files.
-  - `db_query.py`: Contains functions to query the SQLite database.
-  - `db.py`: Script to set up the SQLite database.
-  - `jobs.db`: SQLite database file containing job listings.
-  - `populate_data.py`: Populate database with job data from CSV file.
-  - `constants.py`: Contains constants used across the scraping scripts.
-
 - **scrape/**: Web scraping modules for each job data source.
   - `glassdoor/`: Contains files for scraping Glassdoor.
     - `scrape_glassdoor.py`: The script used to scrape job data from Glassdoor.
@@ -107,7 +100,7 @@ Activate the virtual environment by running the following command:
         xattr -d com.apple.quarantine /path/to/chromedriver
         ```
 
-6. Command to run all the process in one command i.e scrape the data, clean the data, create database, populate database, run the application
+6. Command to run all the process in one command i.e scrape the data, clean the data, run the application
     ```
     python run_commands.py
     ```
@@ -124,19 +117,7 @@ Activate the virtual environment by running the following command:
     python data_processing/process_data.py
     ```
 
-9. **Create the Database**:
-    Set up the database by running the `db.py` script inside the `db` directory:
-    ```
-    python db/db.py
-    ```
-
-10. **Populate the Database**:
-    Populate the database by running the `db.py` script inside the `db` directory:
-    ```
-    python db/populate_db.py
-    ```
-
-11. **Start the Application**:
+9. **Start the Application**:
     Launch the dashboard using Streamlit:
     ```
     streamlit run dashboard.py

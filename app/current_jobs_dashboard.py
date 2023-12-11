@@ -1,9 +1,16 @@
 import streamlit as st
 import pandas as pd
-from dashboard import load_data
+import numpy as np
 
 def main_dashboard():
     st.subheader("Current Jobs Dashboard")
+
+    # Load data from CSV file
+    df = pd.read_csv("data_processing/processed_aggregated_data.csv")
+
+    # Convert 'min_salary' and 'max_salary' to numeric types, handling non-numeric values
+    df['min_salary'] = pd.to_numeric(df['min_salary'], errors='coerce')
+    df['max_salary'] = pd.to_numeric(df['max_salary'], errors='coerce')
 
     col1, col2 = st.columns(2)
     col3, col4 = st.columns(2)
@@ -28,55 +35,30 @@ def main_dashboard():
     with col8:
         h1b_sponsorship = st.checkbox("Filter by H1B Sponsorship", key='h1b_sponsorship_filter')
 
-    # Query building logic for current jobs
-    query = "SELECT * FROM current_jobs WHERE 1=1"
-    params = []
+    # Filtering logic using Pandas
     if company:
-        query += " AND employer LIKE ?"
-        params.append(f'%{company}%')
+        df = df[df['employer'].str.contains(company, case=False, na=False)]
     if job_title:
-        query += " AND `job_title` LIKE ?"
-        params.append(f'%{job_title}%')
+        df = df[df['job_title'].str.contains(job_title, case=False, na=False)]
     if location:
-        query += " AND location LIKE ?"
-        params.append(f'%{location}%')
+        df = df[df['location'].str.contains(location, case=False, na=False)]
     if min_salary > 0:
-        query += " AND min_salary >= ?"
-        params.append(min_salary)
+        df = df[df['min_salary'] >= min_salary]
     if max_salary > 0:
-        query += " AND max_salary <= ?"
-        params.append(max_salary)
+        df = df[df['max_salary'] <= max_salary]
     if job_type:
-        query += " AND `job_type` LIKE ?"
-        params.append(f'%{job_type}%')
+        df = df[df['job_type'].str.contains(job_type, case=False, na=False)]
     if tech_filter:
-        tech_list = [tech.strip() for tech in tech_filter.split(',')]
-        tech_query = " OR ".join(["tech LIKE ?" for _ in tech_list])
-        query += f" AND ({tech_query})"
-        params.extend([f'%{tech}%' for tech in tech_list])
+        tech_list = [tech.strip().lower() for tech in tech_filter.split(',')]
+        df = df[df['tech'].apply(lambda x: any(tech in str(x).lower() for tech in tech_list))]
 
-    results = load_data(query, params)
-
-    def word_based_match(employer_name, company_list):
-        """
-        Check if any word in employer_name is a substring of any company in company_list.
-        """
-        if not employer_name:
-            return False
-        employer_words = employer_name.lower().split()
-        for company in company_list:
-            company_lower = company.lower()
-            # Check if any word in employer_name is a substring of company
-            if any(word in company_lower for word in employer_words):
-                return True
-        return False
-
-    # If H1B sponsorship filter is checked, filter the results
+    # H1B Sponsorship filtering
     if h1b_sponsorship:
-        h1b_companies = load_data("SELECT DISTINCT EMPLOYER FROM h1b_jobs", [])
-        h1b_companies_list = [employer for employer in h1b_companies['EMPLOYER'].tolist() if employer]
-        results = results[results['employer'].apply(lambda x: word_based_match(x, h1b_companies_list))]
+        h1b_companies = pd.read_csv("scrape/h1b/scrape_h1b.csv")
+        h1b_companies_list = h1b_companies['EMPLOYER'].dropna().str.lower().tolist()
+        df = df[df['employer'].str.lower().apply(lambda x: any(word in h1b_companies_list for word in str(x).split()))]
 
+    # Renaming columns and replacing values
     rename_dict = {
         'employer': 'Employer',
         'job_title': 'Job Title',
@@ -86,8 +68,8 @@ def main_dashboard():
         'min_salary': 'Min Salary',
         'max_salary': 'Max Salary'
     }
-
-    results.rename(columns=rename_dict, inplace=True)
+    df.rename(columns=rename_dict, inplace=True)
     replace_values = [None, 'None', 'Null', 'NaN', 'Not Applicable']
-    results.replace(replace_values, 'N/A', inplace=True)
-    st.dataframe(results, width=1200, height=600)
+    df.replace(replace_values, 'N/A', inplace=True)
+
+    st.dataframe(df, width=1200, height=600)

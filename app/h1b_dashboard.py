@@ -1,10 +1,13 @@
 import streamlit as st
-from dashboard import load_data
+import pandas as pd
+import numpy as np
 
 def h1b_job_insights():
     st.subheader("H1B Job Insights")
 
-    # Using columns to organize filters
+    # Load data from CSV file
+    df = pd.read_csv("scrape/h1b/scrape_h1b.csv")
+
     col1, col2 = st.columns(2)  # First row of columns
     col3, col4 = st.columns(2)  # Second row of columns
     col5, col6 = st.columns(2)  # Third row of columns
@@ -22,29 +25,25 @@ def h1b_job_insights():
     with col6:
         year = st.selectbox("Select Year", options=["", "2020", "2021", "2022"], index=0)
 
-    # Query building logic
-    query = "SELECT * FROM h1b_jobs WHERE 1=1"
-    params = []
+    # Filtering logic using Pandas
     if employer:
-        query += " AND EMPLOYER LIKE ?"
-        params.append(f'%{employer}%')
+        df = df[df['EMPLOYER'].str.contains(employer, case=False, na=False)]
     if job_title:
-        query += " AND `JOB TITLE` LIKE ?"
-        params.append(f'%{job_title}%')
+        df = df[df['JOB TITLE'].str.contains(job_title, case=False, na=False)]
     if min_salary > 0:
-        query += " AND `BASE SALARY` >= ?"
-        params.append(min_salary)
+        df = df[df['BASE SALARY'] >= min_salary]
     if max_salary > 0:
-        query += " AND `BASE SALARY` <= ?"
-        params.append(max_salary)
+        df = df[df['BASE SALARY'] <= max_salary]
     if location:
-        query += " AND LOCATION LIKE ?"
-        params.append(f'%{location}%')
+        df = df[df['LOCATION'].str.contains(location, case=False, na=False)]
     if year:
-        query += " AND Year = ?"
-        params.append(year)
+        df = df[df['Year'] == year]
 
-    results = load_data(query, params)
+    st.dataframe(df, width=700, height=300)
 
-    st.dataframe(results, width=700, height=300)
+# The main function to call our dashboard
+def main():
+    h1b_job_insights()
 
+if __name__ == "__main__":
+    main()

@@ -12,8 +12,6 @@ def main():
     commands = [
         ["python", "scrape/scrape.py"],
         ["python", "data_processing/process_data.py"],
-        ["python", "db/db.py"],
-        ["python", "db/populate_data.py"],
         ["streamlit", "run", "app/dashboard.py"]
     ]
 
