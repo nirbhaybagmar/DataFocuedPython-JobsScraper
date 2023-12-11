@@ -55,15 +55,6 @@ def analytics_tab():
 
     # Current Jobs Data Analysis
     if not current_jobs_data.empty:
-        # 6. Number of Jobs by Job Type
-        st.subheader("Number of Jobs by Job Type (Current Jobs)")
-        job_type_count = current_jobs_data['job_type'].value_counts()
-        plt.figure(figsize=(10, 6))
-        sns.barplot(x=job_type_count.values, y=job_type_count.index)
-        plt.xlabel("Number of Jobs")
-        plt.ylabel("Job Types")
-        st.pyplot(plt)
-
         # 7. Technology Frequency
         # Assuming 'Tech' field contains comma-separated values
         tech_series = current_jobs_data['tech'].dropna().str.split(',').explode()

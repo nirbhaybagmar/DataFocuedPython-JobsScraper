@@ -67,8 +67,10 @@ def main():
 
 
 if __name__ == "__main__":
-    print("running scrape jobs")
+    print("Starting scrape jobs for Linkedin, Glassdoor and H1B.")
+    print("This will take approximately 25 minutes to complete.")
 
     main()
 
     print("Scraping complete!")
+    print("You can now run the data processing script to clean and aggregate the data.")
